@@ -71,6 +71,8 @@ class App extends React.Component {
 
   render() {
 
+    console.log('render', this.state);
+
     let filter;
     if (this.state.recipes.length > 0 || this.state.ingredientFilterList.length > 0) {
       filter = <IngredientFilter
