@@ -35,7 +35,7 @@ class App extends React.Component {
       url: '/api/?q=' + this.queryValue + filterQuery
     })
     .done(x => {
-      x = JSON.parse(x);
+      //x = JSON.parse(x);
       console.log(x);
       this.setState({
         recipes: x.results
@@ -72,7 +72,7 @@ class App extends React.Component {
   render() {
 
     let filter;
-    if (this.state.recipes.length > 0) {
+    if (this.state.recipes.length > 0 || this.state.ingredientFilterList.length > 0) {
       filter = <IngredientFilter
         onFilterChange={this.handleFilterChange}
         filters={this.state.ingredientFilterList}
