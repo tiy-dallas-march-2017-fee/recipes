@@ -6,10 +6,6 @@ class QueryBar extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      queryValue: ''
-    }
-
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
@@ -18,24 +14,19 @@ class QueryBar extends React.Component {
 
   handleKeyUp(evt) {
     if (evt.keyCode === 13) {
-      this.props.onQuery(this.state.queryValue);
-      this.setState({
-        queryValue: ''
-      })
+      this.props.onQuery();
     }
 
   }
 
   handleChange(evt) {
-    this.setState({
-      queryValue: evt.target.value
-    })
+    this.props.onQueryChange(evt.target.value);
   }
 
   render() {
     return (
       <div className="query-bar">
-        <input value={this.state.queryValue}
+        <input value={this.props.inputValue}
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
           placeholder="Search Query" />

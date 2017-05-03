@@ -19,13 +19,15 @@ class App extends React.Component {
     this.state = {
       recipes: [],
       ingredientFilterList: [],
-      filterInputValue: ''
+      filterInputValue: '',
+      queryInputValue: ''
     }
 
     this.handleQuery = this.handleQuery.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleRemoveFilter = this.handleRemoveFilter.bind(this);
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
   }
 
   query() {
@@ -34,14 +36,14 @@ class App extends React.Component {
     filterQuery += this.ingredientFilterList.join();
 
     var url = '/api/?q=' + this.queryValue + filterQuery;
-    console.log('what am I doing?', url)
+    console.log('what url am I using?', url)
 
     $.ajax({
       url: url
     })
     .done(x => {
       x = JSON.parse(x);
-      console.log(x);
+      //console.log(x);
       this.setState({
         recipes: x.results
       })
@@ -49,8 +51,14 @@ class App extends React.Component {
   }
 
   handleQuery(queryValue) {
-    this.queryValue = queryValue;
     this.query();
+  }
+
+  handleQueryChange(queryValue) {
+    this.queryValue = queryValue;
+    this.setState({
+      queryInputValue: queryValue
+    })
   }
 
   handleFilterChange(item) {
@@ -83,8 +91,6 @@ class App extends React.Component {
 
   render() {
 
-    console.log('render', this.state);
-
     let filter;
     if (this.state.recipes.length > 0 || this.state.ingredientFilterList.length > 0) {
       filter = <IngredientFilter
@@ -101,7 +107,11 @@ class App extends React.Component {
           <h1 className="container">My Recipe App</h1>
         </header>
         <div className="contents container">
-          <QueryBar onQuery={this.handleQuery} />
+          <QueryBar
+            onQuery={this.handleQuery}
+            onQueryChange={this.handleQueryChange}
+            inputValue={this.state.queryInputValue}
+            />
           <RecipeList recipes={this.state.recipes} />
           {filter}
           <footer>This app is built with <a href="http://recipepuppy.com"><img src="recipepuppy.png" alt="recipe puppy" /></a>.</footer>
