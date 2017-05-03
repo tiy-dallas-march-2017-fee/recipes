@@ -6,27 +6,18 @@ class IngredientFilter extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      inputValue: ''
-    }
-
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
 
   handleKeyUp(evt) {
     if (evt.keyCode === 13) {
-      this.props.onFilterChange(this.state.inputValue);
-      this.setState({
-        inputValue: ''
-      })
+      this.props.onFilterChange(this.props.inputValue);
     }
   }
 
   handleChange(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    })
+    this.props.onFilterTextChange(evt.target.value);
   }
 
   render() {
@@ -42,7 +33,7 @@ class IngredientFilter extends React.Component {
 
         <h2>Would you also like to filter by ingredients?</h2>
 
-        <input value={this.state.inputValue}
+        <input value={this.props.inputValue}
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
           placeholder="ingredient" />

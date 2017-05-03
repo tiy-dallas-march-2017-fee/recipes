@@ -18,12 +18,14 @@ class App extends React.Component {
 
     this.state = {
       recipes: [],
-      ingredientFilterList: []
+      ingredientFilterList: [],
+      filterInputValue: ''
     }
 
     this.handleQuery = this.handleQuery.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleRemoveFilter = this.handleRemoveFilter.bind(this);
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
   }
 
   query() {
@@ -31,11 +33,14 @@ class App extends React.Component {
     let filterQuery = '&i=';
     filterQuery += this.ingredientFilterList.join();
 
+    var url = '/api/?q=' + this.queryValue + filterQuery;
+    console.log('what am I doing?', url)
+
     $.ajax({
-      url: '/api/?q=' + this.queryValue + filterQuery
+      url: url
     })
     .done(x => {
-      //x = JSON.parse(x);
+      x = JSON.parse(x);
       console.log(x);
       this.setState({
         recipes: x.results
@@ -54,9 +59,16 @@ class App extends React.Component {
     this.ingredientFilterList = ingredients;
 
     this.setState({
-      ingredientFilterList: ingredients
+      ingredientFilterList: ingredients,
+      filterInputValue: ''
     });
     this.query();
+  }
+
+  handleFilterTextChange(text) {
+    this.setState({
+      filterInputValue: text
+    });
   }
 
   handleRemoveFilter(i) {
@@ -78,7 +90,9 @@ class App extends React.Component {
       filter = <IngredientFilter
         onFilterChange={this.handleFilterChange}
         filters={this.state.ingredientFilterList}
-        onRemoveFilter={this.handleRemoveFilter} />
+        onRemoveFilter={this.handleRemoveFilter}
+        inputValue={this.state.filterInputValue}
+        onFilterTextChange={this.handleFilterTextChange} />
     }
 
     return (

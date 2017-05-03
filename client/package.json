@@ -2,7 +2,7 @@
   "name": "expr",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://www.recipepuppy.com/",
   "dependencies": {
     "express": "^4.15.2",
     "jquery": "^3.2.1",
